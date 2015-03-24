@@ -1,5 +1,6 @@
 //---------------------------------------------------------
 // For conditions of distribution and use, see
+// see wl file content text 
 // https://github.com/preshing/cpp11-on-multicore/blob/master/LICENSE
 //---------------------------------------------------------
 
@@ -14,20 +15,19 @@
 //---------------------------------------------------------
 // Semaphore (Windows)
 //---------------------------------------------------------
+    #include <windows.h>
+    #undef min
+    #undef max
 
-#include <windows.h>
-#undef min
-#undef max
-
-class Semaphore
-{
-private:
+    class Semaphore
+    {
+    private:
     HANDLE m_hSema;
 
     Semaphore(const Semaphore& other) = delete;
     Semaphore& operator=(const Semaphore& other) = delete;
 
-public:
+    public:
     Semaphore(int initialCount = 0)
     {
         assert(initialCount >= 0);
@@ -52,22 +52,23 @@ public:
 
 
 #elif defined(__MACH__)
+    
 //---------------------------------------------------------
 // Semaphore (Apple iOS and OSX)
 // Can't use POSIX semaphores due to http://lists.apple.com/archives/darwin-kernel/2009/Apr/msg00010.html
 //---------------------------------------------------------
 
-#include <mach/mach.h>
+    #include <mach/mach.h>
 
-class Semaphore
-{
-private:
+    class Semaphore
+    {
+    private:
     semaphore_t m_sema;
 
     Semaphore(const Semaphore& other) = delete;
     Semaphore& operator=(const Semaphore& other) = delete;
 
-public:
+    public:
     Semaphore(int initialCount = 0)
     {
         assert(initialCount >= 0);
@@ -104,17 +105,17 @@ public:
 // Semaphore (POSIX, Linux)
 //---------------------------------------------------------
 
-#include <semaphore.h>
+    #include <semaphore.h>
 
-class Semaphore
-{
-private:
+    class Semaphore
+    {
+    private:
     sem_t m_sema;
 
     Semaphore(const Semaphore& other) = delete;
     Semaphore& operator=(const Semaphore& other) = delete;
 
-public:
+    public:
     Semaphore(int initialCount = 0)
     {
         assert(initialCount >= 0);
